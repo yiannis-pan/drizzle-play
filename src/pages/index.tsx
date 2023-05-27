@@ -4,7 +4,7 @@ import { createInnerTRPCContext } from "~/server/api/trpc";
 import { api } from "~/utils/api";
 import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
-export const runtime = "experimental-edge";
+// export const runtime = "experimental-edge";
 
 export const getServerSideProps = async () => {
   const ssg = createServerSideHelpers({
