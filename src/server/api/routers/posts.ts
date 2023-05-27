@@ -4,7 +4,12 @@ import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
 export const postsRouter = createTRPCRouter({
   getPosts: publicProcedure.query(async ({ ctx }) => {
-    return await ctx.drizzle.select().from(posts);
+    return await ctx.drizzle.query.posts.findMany({
+      columns: {
+        id: true,
+        title: true,
+      },
+    });
   }),
   addPost: publicProcedure
     .input(z.object({ title: z.string() }))

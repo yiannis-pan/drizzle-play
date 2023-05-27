@@ -1,7 +1,30 @@
+import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { type NextPage } from "next";
+import { appRouter } from "~/server/api/root";
+import { createInnerTRPCContext } from "~/server/api/trpc";
 import { api } from "~/utils/api";
-
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import superjson from "superjson";
 export const runtime = "experimental-edge";
+
+export const getServerSideProps = async (
+  _opts: FetchCreateContextFnOptions
+) => {
+  const ssg = createServerSideHelpers({
+    ctx: createInnerTRPCContext(_opts),
+    router: appRouter,
+    transformer: superjson,
+  });
+
+  await ssg.posts.getPosts.prefetch();
+
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};
+
 const Home: NextPage = () => {
   const context = api.useContext();
   const posts = api.posts.getPosts.useQuery();

@@ -33,7 +33,7 @@ type CreateContextOptions = Record<string, never>;
  *
  * @see https://create.t3.gg/en/usage/trpc#-serverapitrpcts
  */
-const createInnerTRPCContext = (_opts: CreateContextOptions) => {
+export const createInnerTRPCContext = (_opts: FetchCreateContextFnOptions) => {
   return { drizzle: db };
 };
 
@@ -44,7 +44,7 @@ const createInnerTRPCContext = (_opts: CreateContextOptions) => {
  * @see https://trpc.io/docs/context
  */
 export const createTRPCContext = (_opts: FetchCreateContextFnOptions) => {
-  return createInnerTRPCContext({});
+  return createInnerTRPCContext(_opts);
 };
 
 /**
