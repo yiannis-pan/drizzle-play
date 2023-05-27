@@ -1,6 +1,7 @@
 import { type NextPage } from "next";
 import { api } from "~/utils/api";
 
+export const runtime = "experimental-edge";
 const Home: NextPage = () => {
   const context = api.useContext();
   const posts = api.posts.getPosts.useQuery();
