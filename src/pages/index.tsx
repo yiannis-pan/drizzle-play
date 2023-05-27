@@ -1,4 +1,3 @@
-import { FetchCreateContextFnOptions } from "@trpc/server/adapters/fetch";
 import { type NextPage } from "next";
 import { appRouter } from "~/server/api/root";
 import { createInnerTRPCContext } from "~/server/api/trpc";
@@ -7,11 +6,9 @@ import { createServerSideHelpers } from "@trpc/react-query/server";
 import superjson from "superjson";
 export const runtime = "experimental-edge";
 
-export const getServerSideProps = async (
-  _opts: FetchCreateContextFnOptions
-) => {
+export const getServerSideProps = async () => {
   const ssg = createServerSideHelpers({
-    ctx: createInnerTRPCContext(_opts),
+    ctx: createInnerTRPCContext(),
     router: appRouter,
     transformer: superjson,
   });
@@ -38,7 +35,7 @@ const Home: NextPage = () => {
     addPost.mutate({ title: "Some Post" });
   };
 
-  if (!posts.data) return <h1>No data</h1>;
+  if (!posts.data) return <div className="h-screen w-full bg-red-300"></div>;
 
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center space-y-5 bg-gray-800/90">

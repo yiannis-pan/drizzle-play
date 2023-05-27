@@ -1,4 +1,4 @@
-import { InferModel } from "drizzle-orm";
+import type { InferModel } from "drizzle-orm";
 import { mysqlTable, serial, varchar, timestamp } from "drizzle-orm/mysql-core";
 
 export const posts = mysqlTable("posts", {
