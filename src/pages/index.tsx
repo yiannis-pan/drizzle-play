@@ -1,26 +1,27 @@
 import { type NextPage } from "next";
-import { appRouter } from "~/server/api/root";
-import { createInnerTRPCContext } from "~/server/api/trpc";
+// import { appRouter } from "~/server/api/root";
+// import { createInnerTRPCContext } from "~/server/api/trpc";
 import { api } from "~/utils/api";
-import { createServerSideHelpers } from "@trpc/react-query/server";
-import superjson from "superjson";
-export const runtime = "experimental-edge";
+// import { createServerSideHelpers } from "@trpc/react-query/server";
+// import superjson from "superjson";
+// export const runtime = "experimental-edge";
+// export const regions = ["lhr1"];
 
-export const getServerSideProps = async () => {
-  const ssg = createServerSideHelpers({
-    ctx: createInnerTRPCContext(),
-    router: appRouter,
-    transformer: superjson,
-  });
+// export const getServerSideProps = async () => {
+//   const ssg = createServerSideHelpers({
+//     ctx: createInnerTRPCContext(),
+//     router: appRouter,
+//     transformer: superjson,
+//   });
 
-  await ssg.posts.getPosts.prefetch();
+//   await ssg.posts.getPosts.prefetch();
 
-  return {
-    props: {
-      trpcState: ssg.dehydrate(),
-    },
-  };
-};
+//   return {
+//     props: {
+//       trpcState: ssg.dehydrate(),
+//     },
+//   };
+// };
 
 const Home: NextPage = () => {
   const context = api.useContext();
