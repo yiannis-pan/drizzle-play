@@ -1,12 +1,16 @@
 import { z } from "zod";
+import { posts } from "~/db/schema";
 import { createTRPCRouter, publicProcedure } from "~/server/api/trpc";
 
-export const exampleRouter = createTRPCRouter({
-  hello: publicProcedure
-    .input(z.object({ text: z.string() }))
-    .query(({ input }) => {
-      return {
-        greeting: `Hello ${input.text}`,
-      };
+export const postsRouter = createTRPCRouter({
+  getPosts: publicProcedure.query(async ({ ctx }) => {
+    return await ctx.drizzle.select().from(posts);
+  }),
+  addPost: publicProcedure
+    .input(z.object({ title: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return await ctx.drizzle.insert(posts).values({
+        title: input.title,
+      });
     }),
 });
