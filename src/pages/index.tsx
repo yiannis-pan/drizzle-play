@@ -1,28 +1,37 @@
-import { type NextPage } from "next";
-// import { appRouter } from "~/server/api/root";
-// import { createInnerTRPCContext } from "~/server/api/trpc";
+import type { GetServerSidePropsContext, NextPage } from "next";
+import { appRouter } from "~/server/api/root";
+import { createInnerTRPCContext } from "~/server/api/trpc";
 import { api } from "~/utils/api";
 import { UserButton } from "@clerk/nextjs";
-// import { createServerSideHelpers } from "@trpc/react-query/server";
-// import superjson from "superjson";
-// export const runtime = "experimental-edge";
-// export const regions = ["lhr1"];
+import { createServerSideHelpers } from "@trpc/react-query/server";
+import superjson from "superjson";
+import { getAuth } from "@clerk/nextjs/server";
+export const runtime = "experimental-edge";
 
-// export const getServerSideProps = async () => {
-//   const ssg = createServerSideHelpers({
-//     ctx: createInnerTRPCContext(),
-//     router: appRouter,
-//     transformer: superjson,
-//   });
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  const { userId } = getAuth(ctx.req);
+  if (!userId) {
+    return {
+      redirect: {
+        destination: "/sign-in?redirect_url=" + ctx.resolvedUrl,
+        permanent: false,
+      },
+    };
+  }
+  const ssg = createServerSideHelpers({
+    ctx: createInnerTRPCContext(),
+    router: appRouter,
+    transformer: superjson,
+  });
 
-//   await ssg.posts.getPosts.prefetch();
+  await ssg.posts.getPosts.prefetch();
 
-//   return {
-//     props: {
-//       trpcState: ssg.dehydrate(),
-//     },
-//   };
-// };
+  return {
+    props: {
+      trpcState: ssg.dehydrate(),
+    },
+  };
+};
 
 const Home: NextPage = () => {
   const context = api.useContext();

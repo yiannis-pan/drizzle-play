@@ -1,10 +1,8 @@
 import { authMiddleware } from "@clerk/nextjs";
 
-export default authMiddleware();
-
-export const test = () => {
-  return console.log("middleware");
-};
+export default authMiddleware({
+  // publicRoutes: ["/index.ts", "/(api|trpc)(.*)"],
+});
 
 export const config = {
   matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
