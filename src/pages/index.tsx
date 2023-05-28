@@ -2,6 +2,7 @@ import { type NextPage } from "next";
 // import { appRouter } from "~/server/api/root";
 // import { createInnerTRPCContext } from "~/server/api/trpc";
 import { api } from "~/utils/api";
+import { UserButton } from "@clerk/nextjs";
 // import { createServerSideHelpers } from "@trpc/react-query/server";
 // import superjson from "superjson";
 // export const runtime = "experimental-edge";
@@ -50,6 +51,7 @@ const Home: NextPage = () => {
       {posts.data.map((post) => (
         <h1 key={post.id}>{post.title}</h1>
       ))}
+      <UserButton />
     </div>
   );
 };
