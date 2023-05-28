@@ -19,7 +19,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     };
   }
   const ssg = createServerSideHelpers({
-    ctx: createInnerTRPCContext(),
+    ctx: createInnerTRPCContext({ auth: getAuth(ctx.req) }),
     router: appRouter,
     transformer: superjson,
   });
