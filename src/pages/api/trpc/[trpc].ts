@@ -11,7 +11,7 @@ export default async function handler(req: NextRequest) {
     router: appRouter,
     endpoint: `/api/trpc`,
     req,
-    createContext: (_opts) => createTRPCContext(),
+    createContext: () => createTRPCContext(req),
     onError:
       env.NODE_ENV === "development"
         ? ({ path, error }) => {
